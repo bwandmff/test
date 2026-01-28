@@ -1,11 +1,24 @@
 #include <stdio.h>
+#include "mqtt.h"
 
-void mqtt_init() {
-    printf("Initializing MQTT connection...\n");
-    // Á¬½Óµ½MQTT·şÎñÆ÷µÄ´úÂë
+static int connected = 0;
+
+int mqtt_init(void) {
+    printf("[MQTT] Initializing MQTT connection...\n");
+    
+    // TODO: å®é™…çš„MQTTè¿æ¥é€»è¾‘
+    // ä¾‹å¦‚: è¿æ¥åˆ° broker, è®¾ç½®å›è°ƒç­‰
+    
+    connected = 1;
+    printf("[MQTT] Connection established successfully.\n");
+    return 0;
 }
 
-void mqtt_cleanup() {
-    printf("Cleaning up MQTT connection...\n");
-    // ¹Ø±ÕMQTTÁ¬½ÓµÄ´úÂë
+void mqtt_cleanup(void) {
+    if (connected) {
+        printf("[MQTT] Closing MQTT connection...\n");
+        // TODO: æ–­å¼€è¿æ¥, é‡Šæ”¾èµ„æº
+        connected = 0;
+        printf("[MQTT] Connection closed.\n");
+    }
 }

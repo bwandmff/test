@@ -1,6 +1,10 @@
-#ifndef ALG_H  // 防止头文件重复包含
+#ifndef ALG_H
 #define ALG_H
 
-void alg_process();
+/**
+ * @brief 鎵ц绠楁硶澶勭悊
+ * @return 0 鎴愬姛, -1 澶辫触
+ */
+int alg_process(void);
 
-#endif
+#endif  // ALG_H

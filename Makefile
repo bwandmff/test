@@ -1,28 +1,43 @@
-# Makefileʾ��
+# Makefile for Embedded Sensor Project
 
-# �������ͱ���ѡ��
+# 编译器和编译选项
 CC = gcc
-CFLAGS = -Wall -g -pthread
+CFLAGS = -Wall -Wextra -g -pthread -std=c11
 
-# Ŀ���ļ���������ϵ
+# 目标文件
 TARGET = ctest
 SRCS = main.c mqtt.c sensor.c alg.c
 OBJS = $(SRCS:.c=.o)
+DEPS = $(SRCS:.c=.d)
 
-# ͷ�ļ�·��
+# 头文件路径
 INCLUDES = -Iinclude
 
-# Ĭ��Ŀ�꣺�����ִ���ļ�
+# 默认目标
 all: $(TARGET)
 
-# ���ɿ�ִ���ļ�
+# 生成可执行文件
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
+	@echo "Build complete: $(TARGET)"
 
-# ����ÿ�� .c Դ�ļ�Ϊ .o �ļ�
+# 编译源文件 (自动生成依赖)
 %.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $<
+	$(CC) $(CFLAGS) $(INCLUDES) -MMD -MP -c $< -o $@
 
-# �������ɵ��ļ�
+# 包含自动生成的依赖文件
+-include $(DEPS)
+
+# 运行程序
+run: $(TARGET)
+	./$(TARGET)
+
+# 清理编译产物
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -f $(OBJS) $(DEPS) $(TARGET)
+	@echo "Clean complete."
+
+# 重新编译
+rebuild: clean all
+
+.PHONY: all clean run rebuild

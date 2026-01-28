@@ -1,8 +1,15 @@
-#ifndef SENSOR_H  // 防止头文件重复包含
+#ifndef SENSOR_H
 #define SENSOR_H
 
-// 函数声明
-void sensor_init();
-void sensor_cleanup();
+/**
+ * @brief 鍒濆鍖栦紶鎰熷櫒
+ * @return 0 鎴愬姛, -1 澶辫触
+ */
+int sensor_init(void);
 
-#endif  // EXAMPLE_H
+/**
+ * @brief 鍏抽棴浼犳劅鍣ㄥ苟閲婃斁璧勬簮
+ */
+void sensor_cleanup(void);
+
+#endif  // SENSOR_H

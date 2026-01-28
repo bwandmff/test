@@ -1,20 +1,38 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "mqtt.h"
 #include "sensor.h"
 #include "alg.h"
 
-int main() {
-    // 初始化MQTT连接
-    mqtt_init();
+int main(void) {
+    printf("=== Application Starting ===\n\n");
 
-    // 初始化传感器
-    sensor_init();
+    // 鍒濆鍖朚QTT杩炴帴
+    if (mqtt_init() != 0) {
+        fprintf(stderr, "[ERROR] Failed to initialize MQTT!\n");
+        return EXIT_FAILURE;
+    }
 
-    // 运行算法处理
-    alg_process();
+    // 鍒濆鍖栦紶鎰熷櫒
+    if (sensor_init() != 0) {
+        fprintf(stderr, "[ERROR] Failed to initialize sensor!\n");
+        mqtt_cleanup();
+        return EXIT_FAILURE;
+    }
 
-    // 关闭MQTT连接
+    // 杩愯绠楁硶澶勭悊
+    if (alg_process() != 0) {
+        fprintf(stderr, "[ERROR] Algorithm processing failed!\n");
+        sensor_cleanup();
+        mqtt_cleanup();
+        return EXIT_FAILURE;
+    }
+
+    // 娓呯悊璧勬簮 (鎸夊垵濮嬪寲鐨勯�嗗簭)
+    printf("\n=== Shutting Down ===\n");
+    sensor_cleanup();
     mqtt_cleanup();
 
-    return 0;
+    printf("\n=== Application Finished ===\n");
+    return EXIT_SUCCESS;
 }

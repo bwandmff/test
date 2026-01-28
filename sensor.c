@@ -1,11 +1,24 @@
 #include <stdio.h>
+#include "sensor.h"
 
-void sensor_init() {
-    printf("Initializing sensor...\n");
-    // ³õÊ¼»¯´«¸ĞÆ÷µÄ´úÂë
+static int initialized = 0;
+
+int sensor_init(void) {
+    printf("[SENSOR] Initializing sensor module...\n");
+    
+    // TODO: å®é™…çš„ä¼ æ„Ÿå™¨åˆå§‹åŒ–é€»è¾‘
+    // ä¾‹å¦‚: é…ç½®GPIO, è®¾ç½®é‡‡æ ·ç‡ç­‰
+    
+    initialized = 1;
+    printf("[SENSOR] Sensor initialized successfully.\n");
+    return 0;
 }
 
-void sensor_cleanup() {
-    printf("Cleaning up sensor...\n");
-    // ¹Ø±Õ´«¸ĞÆ÷µÄ´úÂë
+void sensor_cleanup(void) {
+    if (initialized) {
+        printf("[SENSOR] Shutting down sensor...\n");
+        // TODO: å…³é—­ä¼ æ„Ÿå™¨, é‡Šæ”¾èµ„æº
+        initialized = 0;
+        printf("[SENSOR] Sensor shutdown complete.\n");
+    }
 }
